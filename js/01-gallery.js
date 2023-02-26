@@ -43,5 +43,13 @@ function onCardClick(event) {
 
   instance.show();
 
-  //   console.log(event.target);
+  document.body.addEventListener("keydown", onCloseEsc);
+
+  function onCloseEsc(event) {
+    console.log(event.code);
+    if (event.code === "Escape") {
+      document.body.removeEventListener("keydown", onCloseEsc);
+      instance.close();
+    }
+  }
 }
