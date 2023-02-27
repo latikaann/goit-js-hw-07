@@ -38,18 +38,24 @@ function onCardClick(event) {
     return;
   }
 
-  const instance = basicLightbox.create(`
-      <img src="${event.target.dataset.source}">
-  `);
+  const instance = basicLightbox.create(
+    `
+      <img src="${event.target.dataset.source}">`,
+    {
+      onShow: (instance) => {
+        document.body.addEventListener("keydown", onCloseEsc);
+      },
+      onClose: (instance) => {
+        document.body.removeEventListener("keydown", onCloseEsc);
+      },
+    }
+  );
 
   instance.show();
-
-  document.body.addEventListener("keydown", onCloseEsc);
 
   function onCloseEsc(event) {
     console.log(event.code);
     if (event.code === "Escape") {
-      document.body.removeEventListener("keydown", onCloseEsc);
       instance.close();
     }
   }
